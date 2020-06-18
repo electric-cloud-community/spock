@@ -4,6 +4,9 @@ import org.spockframework.runtime.model.FeatureInfo;
 
 import org.junit.platform.engine.*;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 public abstract class FeatureNode extends SpockNode {
   protected final FeatureInfo featureInfo;
 
@@ -33,5 +36,10 @@ public abstract class FeatureNode extends SpockNode {
   @Override
   public boolean mayRegisterTests() {
     return featureInfo.isParameterized();
+  }
+
+  @Override
+  public Set<TestTag> getTags() {
+    return featureInfo.getTags().stream().map(tag->TestTag.create(tag.getName())).collect(Collectors.toSet());
   }
 }

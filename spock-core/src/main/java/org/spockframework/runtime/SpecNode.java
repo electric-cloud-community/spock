@@ -1,9 +1,13 @@
 package org.spockframework.runtime;
 
+import org.junit.platform.engine.TestTag;
 import org.spockframework.runtime.model.SpecInfo;
 
 import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.support.descriptor.ClassSource;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class SpecNode extends SpockNode {
 
@@ -61,4 +65,8 @@ public class SpecNode extends SpockNode {
     context.getRunner().runSpec(context, () -> sneakyInvoke(invocation, context));
   }
 
+  @Override
+  public Set<TestTag> getTags() {
+    return specInfo.getTags().stream().map(tag->TestTag.create(tag.getName())).collect(Collectors.toSet());
+  }
 }
